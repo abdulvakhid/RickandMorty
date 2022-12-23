@@ -1,55 +1,28 @@
-import { useEffect, useState } from "react";
-import { Card } from "./components/Card";
+import React from 'react'
+import "./assets/styles/main.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap";
+// import { Character } from './pages/Character/Character'
+import { Header } from './components/Header'
+import {Routes, Route} from "react-router-dom"
+import { Character } from './pages/Character/Character'
+import { Episodes } from './pages/Episodes/Episodes'
+import { Location } from './pages/Locaion/Location'
+import { Single } from './pages/Single';
 
-function App() {
-
-  const [data, setData] = useState({
-  isloading:true,
-  data:[],
-  isError:false,
-  })
-
-  useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/character")
-      .then(res => res.json())
-      .then(data => {
-        setData({
-          isloading: false,
-          data: data.results,
-          isError: false,
-        })
-     })
-    .catch(err => {
-      setData({
-        isloading: false,
-        data:[],
-        isError: true,
-        })
-     })
-  },[])
-
+export const App = () => {
   return (
-    <div className="app container">
-        <h1 className="text-center fw-bold display-1 mb-3">Rick and Morty</h1>
-        {data.isloading && <h1>Loading...</h1>}
-        {data.isError && <h1>Error...</h1>}
-        {data.data !== 0 && ( 
-          <ul className="row list-unstyled justify-content-center">
-            {
-            // console.log(data.data)
-            data.data.map(item => 
-            <Card key={item.id} 
-            img={item.image} 
-            name={item.name}
-            status={item.status}
-            gender={item.gender}
-            time={item.created} />
-            )
-            }
-          </ul>    
-          ) }
-    </div>
-  );
-}
+    <>
+    <Header/>
+    <div className='container'>
+        <Routes >
+         < Route path='/' element={<Character/>} />
+         < Route path='/single/:id' element={<Single/>} />
+         < Route path='/location' element={<Location/>} />
+         < Route path='/episodes' element={<Episodes/>} />
+        </Routes>
 
-export default App;
+    </div>
+    </>
+  )
+}
